@@ -11,15 +11,11 @@ const connectDatabase = async () => {
       throw new Error("Database URI is not defined. Check your environment variables.");
     }
 
-    const conn = await mongoose.connect(dbURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-
+    const conn = await mongoose.connect(dbURI); // No options needed
     console.log(`MongoDB connected successfully to HOST: ${conn.connection.host}`);
   } catch (error) {
     console.error("MongoDB connection error:", error.message);
-    process.exit(1); // Exit the process if the database connection fails
+    process.exit(1); // Exit on connection failure
   }
 };
 
