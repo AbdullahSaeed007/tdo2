@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "*",
+    origin: "http://13.61.107.145",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true, // allow cookies
   })
