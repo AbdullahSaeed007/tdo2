@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true, // allow cookies
   })
@@ -38,7 +38,7 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server started on port: ${PORT}`);
 });
 
