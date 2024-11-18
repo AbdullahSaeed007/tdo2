@@ -1,19 +1,26 @@
 const mongoose = require("mongoose");
 
-const connectDatabase = () => {
-  const dbURI =
-    process.env.NODE_ENV === "DEVELOPMENT"
-      ? process.env.DB_ATLAS_URI
-      : process.env.DB_LOCAL_URI;
+const connectDatabase = async () => {
+  try {
+    const dbURI =
+      process.env.NODE_ENV === "DEVELOPMENT"
+        ? process.env.DB_LOCAL_URI
+        : process.env.DB_ATLAS_URI;
 
-  mongoose
-    .connect(dbURI, {})
-    .then((con) => {
-      console.log(`mongoDB connected to HOST: ${con.connection.host}`);
-    })
-    .catch((err) => {
-      console.error("mongoDB connection error: ", err);
+    if (!dbURI) {
+      throw new Error("Database URI is not defined. Check your environment variables.");
+    }
+
+    const conn = await mongoose.connect(dbURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
     });
+
+    console.log(`MongoDB connected successfully to HOST: ${conn.connection.host}`);
+  } catch (error) {
+    console.error("MongoDB connection error:", error.message);
+    process.exit(1); // Exit the process if the database connection fails
+  }
 };
 
 module.exports = connectDatabase;
